@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.daiane.todosimple.models.User;
-import com.daiane.todosimple.repositories.TaskRepositoriy;
 import com.daiane.todosimple.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -16,9 +15,6 @@ public class UserService {
 
   @Autowired
   private UserRepository userRepository;
-
-  @Autowired
-  private TaskRepositoriy taskRepositoriy;
 
   public User findById(Long id) {
     Optional<User> user = this.userRepository.findById(id);
@@ -30,7 +26,6 @@ public class UserService {
   public User create(User obj) {
     obj.setId(null);
     obj = this.userRepository.save(obj);
-    this.taskRepositoriy.saveAll(obj.getTasks());
     return obj;
   }
 
