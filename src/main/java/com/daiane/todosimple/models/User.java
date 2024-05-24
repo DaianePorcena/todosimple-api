@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -82,6 +83,7 @@ public class User {
     this.password = password;
   }
 
+  @JsonIgnore
   public List<Task> getTasks() {
     return tasks;
   }
