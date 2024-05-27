@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.daiane.todosimple.models.Task;
 import com.daiane.todosimple.models.User;
 import com.daiane.todosimple.repositories.TaskRepositoriy;
+import com.daiane.todosimple.services.exeptions.DataBindingViolationException;
+import com.daiane.todosimple.services.exeptions.ObjectNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -24,7 +26,7 @@ public class TaskService {
   public Task findById(Long id) {
     Optional<Task> task = this.taskRepositoriy.findById(id);
     return task.orElseThrow(
-        () -> new RuntimeException("Tarefa não encontrada! Id: " + id + ", Tipo: " + Task.class.getName()));
+        () -> new ObjectNotFoundException("Tarefa não encontrada! Id: " + id + ", Tipo: " + Task.class.getName()));
   }
 
   public List<Task> findAllByUserId(Long userId) {
@@ -53,7 +55,7 @@ public class TaskService {
     try {
       this.taskRepositoriy.deleteById(id);
     } catch (Exception e) {
-      throw new RuntimeException("Não é possível excluir, pois há entidades relacionadas!");
+      throw new DataBindingViolationException("Não é possível excluir, pois há entidades relacionadas!");
     }
   }
 }
