@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.daiane.security.JWTAuthenticationFilter;
 import com.daiane.security.JWTUtil;
 
 @Configuration
@@ -26,7 +27,6 @@ import com.daiane.security.JWTUtil;
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-  @Autowired
   private AuthenticationManager authenticationManager;
 
   @Autowired
@@ -58,7 +58,10 @@ public class SecurityConfig {
     http.authorizeHttpRequests(authorize -> authorize
         .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
         .requestMatchers(PUBLIC_MATCHERS).permitAll()
-        .anyRequest().authenticated());
+        .anyRequest().authenticated())
+        .authenticationManager(authenticationManager);
+
+    http.addFilter(new JWTAuthenticationFilter(this.authenticationManager, this.jwtUtil));
 
     http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
