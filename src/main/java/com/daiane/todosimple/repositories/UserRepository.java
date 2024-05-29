@@ -9,5 +9,5 @@ import com.daiane.todosimple.models.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
   @Transactional(readOnly = true)
-  User finnByUserName(String username);
+  User findByUsername(String username);
 }
